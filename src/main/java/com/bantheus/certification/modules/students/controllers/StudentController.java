@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bantheus.certification.modules.students.dto.StudentCertificationAnswerDTO;
 import com.bantheus.certification.modules.students.dto.VerifyHasCertificationDTO;
+import com.bantheus.certification.modules.students.entities.CertificationStudentEntity;
 import com.bantheus.certification.modules.students.useCases.StudentCertificationAnswersUseCase;
 import com.bantheus.certification.modules.students.useCases.VerifyIfHasCertificationUseCase;
 
@@ -35,7 +36,7 @@ public class StudentController {
   }
 
   @PostMapping("/certification/answer")
-  public StudentCertificationAnswerDTO certificationAnswer(@RequestBody StudentCertificationAnswerDTO studentCertificationAnswerDTO) {
+  public CertificationStudentEntity certificationAnswer(@RequestBody StudentCertificationAnswerDTO studentCertificationAnswerDTO) {
     return studentCertificationAnswerUseCase.execute(studentCertificationAnswerDTO);
   }
 }
