@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bantheus.certification.modules.students.dto.StudentCertificationAnswerDTO;
 import com.bantheus.certification.modules.students.dto.VerifyHasCertificationDTO;
+import com.bantheus.certification.modules.students.useCases.StudentCertificationAnswersUseCase;
 import com.bantheus.certification.modules.students.useCases.VerifyIfHasCertificationUseCase;
 
 @RestController
@@ -15,6 +17,9 @@ public class StudentController {
 
   @Autowired
   private VerifyIfHasCertificationUseCase verifyIfHasCertificationUseCase;
+
+  @Autowired
+  private StudentCertificationAnswersUseCase studentCertificationAnswerUseCase;
   
   @PostMapping("/verifyIfHasCertification")
   public String verifyIfHasCertification(@RequestBody VerifyHasCertificationDTO verifyHasCertificationDTO) {
@@ -27,5 +32,10 @@ public class StudentController {
 
     return "Not certified!";
 
+  }
+
+  @PostMapping("/certification/answer")
+  public StudentCertificationAnswerDTO certificationAnswer(@RequestBody StudentCertificationAnswerDTO studentCertificationAnswerDTO) {
+    return studentCertificationAnswerUseCase.execute(studentCertificationAnswerDTO);
   }
 }

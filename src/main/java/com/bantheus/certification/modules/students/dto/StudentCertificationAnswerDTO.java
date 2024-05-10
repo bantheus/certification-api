@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentCertificationAnswearDTO {
+public class StudentCertificationAnswerDTO {
   
   private String email;
   private String technology;
-  private List<QuestionAnswearDTO> questionsAnswears;
+  private List<QuestionAnswerDTO> questionsAnswers;
 }

@@ -1,5 +1,7 @@
 package com.bantheus.certification.modules.students.dto;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionAnswearDTO {
+public class QuestionAnswerDTO {
   
-  private String questionId;
-  private String alternativeId;
+  private UUID questionId;
+  private UUID alternativeId;
   private boolean isCorrect;
 }
