@@ -3,6 +3,7 @@ package com.bantheus.certification.modules.students.useCases;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,8 @@ public class StudentCertificationAnswersUseCase {
     List<QuestionEntity> questionsEntity = questionRepository.findByTechnology(studentCertificationAnswerDTO.getTechnology());
     List<AnswersCertificationEntity> answersCertifications = new ArrayList<>();
 
+    AtomicInteger correctAnswers = new AtomicInteger(0);
+
     studentCertificationAnswerDTO.getQuestionsAnswers()
     .stream()
     .forEach(questionAnswer -> {
@@ -48,6 +51,7 @@ public class StudentCertificationAnswersUseCase {
 
       if(findCorrectAlternative.getId().equals(questionAnswer.getAlternativeId())) {
         questionAnswer.setCorrect(true);
+        correctAnswers.incrementAndGet();
       } else {
         questionAnswer.setCorrect(false);
       }
@@ -77,6 +81,7 @@ public class StudentCertificationAnswersUseCase {
     CertificationStudentEntity certificationStudentEntity = CertificationStudentEntity.builder()
       .technology(studentCertificationAnswerDTO.getTechnology())
       .studentId(studentId)
+      .grade(correctAnswers.get())
       .build();
 
     var certificationStudentCreated = certificationStudentRepository.save(certificationStudentEntity);
