@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.bantheus.certification.modules.questions.entities.QuestionEntity;
 import com.bantheus.certification.modules.questions.repositories.QuestionRepository;
 import com.bantheus.certification.modules.students.dto.StudentCertificationAnswerDTO;
+import com.bantheus.certification.modules.students.dto.VerifyHasCertificationDTO;
 import com.bantheus.certification.modules.students.entities.AnswersCertificationEntity;
 import com.bantheus.certification.modules.students.entities.CertificationStudentEntity;
 import com.bantheus.certification.modules.students.entities.StudentEntity;
@@ -28,8 +29,17 @@ public class StudentCertificationAnswersUseCase {
 
   @Autowired
   private CertificationStudentRepository certificationStudentRepository;
+
+  @Autowired
+  private VerifyIfHasCertificationUseCase verifyIfHasCertificationUseCase;
   
-  public CertificationStudentEntity execute(StudentCertificationAnswerDTO studentCertificationAnswerDTO) {
+  public CertificationStudentEntity execute(StudentCertificationAnswerDTO studentCertificationAnswerDTO) throws Exception {
+
+    var hasCertification =  this.verifyIfHasCertificationUseCase.execute(new VerifyHasCertificationDTO(studentCertificationAnswerDTO.getEmail(), studentCertificationAnswerDTO.getTechnology()));
+
+    if(hasCertification){
+      throw new Exception("Student already has certification for this technology.");
+    }
     
     List<QuestionEntity> questionsEntity = questionRepository.findByTechnology(studentCertificationAnswerDTO.getTechnology());
     List<AnswersCertificationEntity> answersCertifications = new ArrayList<>();
